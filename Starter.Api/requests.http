@@ -1,0 +1,22 @@
+POST http://localhost:5234/register
+Content-Type: application/json
+
+{
+    "email": "jdoe@example.com",
+    "password": "secret123"
+}
+
+###
+POST http://localhost:5234/login
+Content-Type: application/json
+
+{
+    "email": "mbadem@example.com",
+    "password": "secret123"
+}
+
+###
+GET http://localhost:5234/me
+
+###
+POST http://localhost:5234/logout

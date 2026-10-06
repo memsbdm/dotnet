@@ -1,4 +1,6 @@
-.vscode/
+.vscode/*
+!.vscode/settings.json
 .DS_Store
 bin/
 obj/
+Starter.db*
