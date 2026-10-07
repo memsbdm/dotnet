@@ -14,7 +14,12 @@ public static class HealthCheckExtensions
         services
             .AddHealthChecks()
             .AddCheck("self", () => HealthCheckResult.Healthy(), tags: [LiveTag])
-            .AddDbContextCheck<AppDbContext>("database", tags: [ReadyTag]);
+            .AddDbContextCheck<AppDbContext>("database", tags: [ReadyTag])
+            .AddCheck<RedisHealthCheck>(
+                "redis",
+                failureStatus: HealthStatus.Unhealthy,
+                tags: [ReadyTag],
+                timeout: TimeSpan.FromSeconds(3));
 
         return services;
     }

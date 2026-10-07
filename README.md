@@ -63,7 +63,7 @@ its own OpenTelemetry collector.
 Health probes are available at:
 
 - `/health/live` — the API process is running
-- `/health/ready` — the API can connect to PostgreSQL
+- `/health/ready` — the API can connect to PostgreSQL and Redis
 
 The authenticated `/me` response is cached for one minute with HybridCache:
 15 seconds in local memory and Redis as the distributed secondary cache. Only
