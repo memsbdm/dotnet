@@ -51,6 +51,8 @@ Mailpit captures development emails:
 - SMTP: `localhost:1025`
 - Web UI: <http://localhost:8025>
 
+A successful login sends a notification email to the authenticated user.
+
 The Aspire Dashboard displays local logs, traces, and metrics:
 
 - Web UI: <http://localhost:18888>
