@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Starter.Api.Data;
 using Starter.Api.Endpoints;
 using Starter.Api.Exceptions;
 using Starter.Application.Abstractions;
@@ -50,5 +51,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapAuthEndpoints();
+
+await app.InitialiseDevelopmentDataAsync();
 
 app.Run();

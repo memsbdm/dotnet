@@ -34,6 +34,15 @@ dotnet ef database update \
 dotnet run --project Starter.Api
 ```
 
+In Development, pending migrations are applied automatically and a default user is created if it does not already exist:
+
+```text
+Email: mbadem@example.com
+Password: secret123
+```
+
+The development user is configured in `Starter.Api/appsettings.Development.json` and is never seeded in Production.
+
 ## Quality
 
 ```bash
