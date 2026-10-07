@@ -7,7 +7,7 @@ Minimal .NET starter kit for building web APIs with a clean layered architecture
 - .NET 10
 - ASP.NET Core Minimal APIs
 - Entity Framework Core
-- SQLite
+- PostgreSQL 18
 - Cookie authentication
 - MailKit and Mailpit
 - OpenTelemetry and Aspire Dashboard
@@ -29,13 +29,21 @@ Api → Infrastructure → Application
 ## Getting started
 
 ```bash
+dotnet user-secrets set \
+  "ConnectionStrings:Starter" \
+  "Host=localhost;Port=5432;Database=starter;Username=starter;Password=starter-dev-password" \
+  --project Starter.Api
+
 docker compose up -d
 dotnet restore
-dotnet ef database update \
-  --project Starter.Infrastructure \
-  --startup-project Starter.Api
 dotnet run --project Starter.Api
 ```
+
+The PostgreSQL container uses development-only credentials declared in
+`compose.yml`. The API connection string is stored outside the repository with
+User Secrets. Use a dedicated secret manager in production.
+
+In Development, the API applies pending migrations automatically at startup.
 
 Mailpit captures development emails:
 
@@ -51,9 +59,14 @@ The API exports telemetry only when `OpenTelemetry:OtlpEndpoint` is configured. 
 local endpoint is provided in `appsettings.Development.json`; production can use
 its own OpenTelemetry collector.
 
+Health probes are available at:
+
+- `/health/live` — the API process is running
+- `/health/ready` — the API can connect to PostgreSQL
+
 Stop the development container with `docker compose down`.
 
-In Development, pending migrations are applied automatically and a default user is created if it does not already exist:
+In Development, a default user is created if it does not already exist:
 
 ```text
 Email: mbadem@example.com

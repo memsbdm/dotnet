@@ -1,5 +1,5 @@
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using Starter.Application.Abstractions;
 using Starter.Domain.Entities;
 using Starter.Domain.ValueObjects;
@@ -27,10 +27,9 @@ public sealed class UserRepository(AppDbContext dbContext) : IUserRepository
             return true;
         }
         catch (DbUpdateException exception) when (
-            exception.InnerException is SqliteException
+            exception.InnerException is PostgresException
             {
-                SqliteErrorCode: 19,
-                SqliteExtendedErrorCode: 2067
+                SqlState: PostgresErrorCodes.UniqueViolation
             })
         {
             _dbContext.Entry(user).State = EntityState.Detached;
