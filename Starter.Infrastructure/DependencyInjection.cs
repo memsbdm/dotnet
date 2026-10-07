@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Starter.Application.Abstractions;
+using Starter.Infrastructure.Messaging;
 using Starter.Infrastructure.Persistence;
 using Starter.Infrastructure.Repositories;
 
@@ -14,6 +15,15 @@ public static class DependencyInjection
         services.AddDbContext<AppDbContext>(options =>
             options.UseSqlite(configuration.GetConnectionString("Starter")));
         services.AddScoped<IUserRepository, UserRepository>();
+        services
+            .AddOptions<EmailOptions>()
+            .Bind(configuration.GetRequiredSection(EmailOptions.SectionName))
+            .ValidateDataAnnotations()
+            .Validate(
+                options => string.IsNullOrWhiteSpace(options.Username) == string.IsNullOrWhiteSpace(options.Password),
+                "Email username and password must either both be provided or both be omitted.")
+            .ValidateOnStart();
+        services.AddSingleton<IEmailSender, MailKitEmailSender>();
 
         return services;
     }

@@ -9,6 +9,7 @@ Minimal .NET starter kit for building web APIs with a clean layered architecture
 - Entity Framework Core
 - SQLite
 - Cookie authentication
+- MailKit and Mailpit
 
 ## Architecture
 
@@ -27,12 +28,20 @@ Api → Infrastructure → Application
 ## Getting started
 
 ```bash
+docker compose up -d
 dotnet restore
 dotnet ef database update \
   --project Starter.Infrastructure \
   --startup-project Starter.Api
 dotnet run --project Starter.Api
 ```
+
+Mailpit captures development emails:
+
+- SMTP: `localhost:1025`
+- Web UI: <http://localhost:8025>
+
+Stop the development container with `docker compose down`.
 
 In Development, pending migrations are applied automatically and a default user is created if it does not already exist:
 
