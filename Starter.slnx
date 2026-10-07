@@ -3,5 +3,6 @@
   <Project Path="Starter.Application/Starter.Application.csproj" />
   <Project Path="Starter.Domain/Starter.Domain.csproj" />
   <Project Path="Starter.Infrastructure/Starter.Infrastructure.csproj" />
-  <Project Path="Starter.Tests/Starter.Tests.csproj" />
+  <Project Path="Starter.IntegrationTests/Starter.IntegrationTests.csproj" />
+  <Project Path="Starter.UnitTests/Starter.UnitTests.csproj" />
 </Solution>

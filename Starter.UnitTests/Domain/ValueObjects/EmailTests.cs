@@ -1,7 +1,7 @@
 using Starter.Domain.Exceptions;
 using Starter.Domain.ValueObjects;
 
-namespace Starter.Tests.Domain.ValueObjects;
+namespace Starter.UnitTests.Domain.ValueObjects;
 
 public sealed class EmailTests
 {

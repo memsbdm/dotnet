@@ -65,3 +65,5 @@ app.MapApiHealthChecks();
 await app.InitialiseDevelopmentDataAsync();
 
 app.Run();
+
+public partial class Program;

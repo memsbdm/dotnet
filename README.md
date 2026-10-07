@@ -82,6 +82,9 @@ The development user is configured in `Starter.Api/appsettings.Development.json`
 
 ## Quality
 
+- `Starter.UnitTests` contains fast tests with no external dependencies.
+- `Starter.IntegrationTests` uses disposable PostgreSQL containers and requires Docker.
+
 ```bash
 dotnet build Starter.slnx
 dotnet format Starter.slnx
