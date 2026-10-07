@@ -61,3 +61,5 @@ dotnet format Starter.slnx --verify-no-changes
 ```
 
 Warnings are treated as errors, and formatting conventions are defined in `.editorconfig`.
+
+The API uses IP-partitioned sliding-window rate limits configured in `Starter.Api/appsettings.json`. The `/login` endpoint has a stricter policy and returns `429 Too Many Requests` with a `Retry-After` header when the limit is exceeded.

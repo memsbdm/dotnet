@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Starter.Api.Contracts.Auth;
+using Starter.Api.RateLimiting;
 using Starter.Application.Abstractions;
 using Starter.Application.Features.Auth.Login;
 using Starter.Application.Features.Auth.Register;
@@ -64,7 +65,7 @@ public static class AuthEndpoints
             await httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
             return Results.Ok();
-        });
+        }).RequireRateLimiting(RateLimitPolicies.Login);
 
         app.MapPost("/logout", async (HttpContext httpContext) =>
         {

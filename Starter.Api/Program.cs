@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Starter.Api.Data;
 using Starter.Api.Endpoints;
 using Starter.Api.Exceptions;
+using Starter.Api.RateLimiting;
 using Starter.Application.Abstractions;
 using Starter.Application.Features.Auth.Login;
 using Starter.Application.Features.Auth.Register;
@@ -12,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddValidation();
+builder.Services.AddApiRateLimiting(builder.Configuration);
 
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<RegisterHandler>();
@@ -48,6 +50,7 @@ var app = builder.Build();
 app.UseExceptionHandler();
 
 app.UseAuthentication();
+app.UseRateLimiter();
 app.UseAuthorization();
 
 app.MapAuthEndpoints();
