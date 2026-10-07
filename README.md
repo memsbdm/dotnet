@@ -8,6 +8,7 @@ Minimal .NET starter kit for building web APIs with a clean layered architecture
 - ASP.NET Core Minimal APIs
 - Entity Framework Core
 - PostgreSQL 18
+- Redis and HybridCache
 - Cookie authentication
 - MailKit and Mailpit
 - OpenTelemetry and Aspire Dashboard
@@ -63,6 +64,10 @@ Health probes are available at:
 
 - `/health/live` — the API process is running
 - `/health/ready` — the API can connect to PostgreSQL
+
+The authenticated `/me` response is cached for one minute with HybridCache:
+15 seconds in local memory and Redis as the distributed secondary cache. Only
+the public user profile (`Id` and `Email`) is cached.
 
 Stop the development container with `docker compose down`.
 

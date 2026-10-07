@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Starter.Api.Caching;
 using Starter.Api.Data;
 using Starter.Api.Endpoints;
 using Starter.Api.Exceptions;
@@ -14,6 +15,7 @@ using Starter.Infrastructure.Authentication;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddObservability();
+builder.Services.AddApiCaching(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApiHealthChecks();
 builder.Services.AddValidation();

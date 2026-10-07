@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.Extensions.Caching.Hybrid;
 using Starter.Api.Contracts.Auth;
 using Starter.Api.RateLimiting;
 using Starter.Application.Abstractions;
@@ -80,6 +81,7 @@ public static class AuthEndpoints
         app.MapGet("/me", async (
             HttpContext httpContext,
             IUserRepository userRepository,
+            HybridCache cache,
             CancellationToken cancellationToken) =>
         {
             var userIdClaim = httpContext.User.FindFirst(ClaimTypes.NameIdentifier);
@@ -89,14 +91,23 @@ public static class AuthEndpoints
                 return Results.Unauthorized();
             }
 
-            var user = await userRepository.GetUserById(userId, cancellationToken);
+            var profile = await cache.GetOrCreateAsync(
+                $"user-profile:{userId:N}",
+                async token =>
+                {
+                    var user = await userRepository.GetUserById(userId, token);
+                    return user is null
+                        ? null
+                        : new MeResponse(user.Id, user.Email.Value);
+                },
+                cancellationToken: cancellationToken);
 
-            if (user == null)
+            if (profile is null)
             {
                 return Results.NotFound();
             }
 
-            return Results.Ok(new { user.Id, Email = user.Email.Value });
+            return Results.Ok(profile);
         }).RequireAuthorization();
     }
 }
