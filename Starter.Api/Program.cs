@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Starter.Api.Data;
 using Starter.Api.Endpoints;
 using Starter.Api.Exceptions;
+using Starter.Api.Observability;
 using Starter.Api.RateLimiting;
 using Starter.Application.Abstractions;
 using Starter.Application.Features.Auth.Login;
@@ -11,6 +12,7 @@ using Starter.Infrastructure.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddObservability();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddValidation();
 builder.Services.AddApiRateLimiting(builder.Configuration);

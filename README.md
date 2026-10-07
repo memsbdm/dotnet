@@ -10,6 +10,7 @@ Minimal .NET starter kit for building web APIs with a clean layered architecture
 - SQLite
 - Cookie authentication
 - MailKit and Mailpit
+- OpenTelemetry and Aspire Dashboard
 
 ## Architecture
 
@@ -40,6 +41,15 @@ Mailpit captures development emails:
 
 - SMTP: `localhost:1025`
 - Web UI: <http://localhost:8025>
+
+The Aspire Dashboard displays local logs, traces, and metrics:
+
+- Web UI: <http://localhost:18888>
+- OTLP/gRPC: `localhost:4317`
+
+The API exports telemetry only when `OpenTelemetry:OtlpEndpoint` is configured. A
+local endpoint is provided in `appsettings.Development.json`; production can use
+its own OpenTelemetry collector.
 
 Stop the development container with `docker compose down`.
 

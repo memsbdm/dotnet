@@ -37,6 +37,7 @@ public static class AuthEndpoints
             LoginRequest request,
             LoginHandler handler,
             HttpContext httpContext,
+            ILogger<AuthLogCategory> logger,
             CancellationToken cancellationToken) =>
         {
             var command = new LoginCommand(request.Email, request.Password);
@@ -63,6 +64,8 @@ public static class AuthEndpoints
             var principal = new ClaimsPrincipal(identity);
 
             await httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+            AuthLogs.UserLoggedIn(logger, user.Id);
 
             return Results.Ok();
         }).RequireRateLimiting(RateLimitPolicies.Login);
@@ -96,4 +99,15 @@ public static class AuthEndpoints
             return Results.Ok(new { user.Id, Email = user.Email.Value });
         }).RequireAuthorization();
     }
+}
+
+internal sealed class AuthLogCategory;
+
+internal static partial class AuthLogs
+{
+    [LoggerMessage(
+        EventId = 1001,
+        Level = LogLevel.Information,
+        Message = "User {UserId} logged in.")]
+    public static partial void UserLoggedIn(ILogger logger, Guid userId);
 }
